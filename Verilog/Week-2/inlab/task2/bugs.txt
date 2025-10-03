@@ -1,0 +1,31 @@
+
+LINE 7, shiftReg1
+    // wire [3:0] shiftReg; //
+
+    shiftReg is a register but not a wire.
+
+LINE 47, shiftReg3
+    // assign shiftReg = rst ? 4'b0000 : {shiftReg[2:0], din}; //
+
+    assign is not used for reg but only used for a wire. Also it should be written inside a always block. Now the type of asignment will also change to <=.
+    Final code: 
+    // always @(posedge clk) begin
+        shiftReg <= rst ? 4'b0000 : {shiftReg[2:0], din}; 
+        end //
+
+LINE 33, shiftReg2
+    // shiftReg <= {din, shiftReg[3:1]}; //
+
+    shiftReg[3:1] is added to the end of the din which is no the left shift. This line of code will right shift. The change will be the following:
+    
+    // shiftReg <= {shiftReg[2:0],din}; //
+
+LINE 64, shiftReg4
+    // shiftReg <= {shiftReg[2:0], din}; //
+
+    Here else statement is not written. without that the above will always run so there would be problem. This change is:
+    
+    // else begin
+            shiftReg <= {shiftReg[2:0], din}; 
+            end //
+
